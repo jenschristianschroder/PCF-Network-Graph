@@ -10,10 +10,12 @@ export class PCFNetworkGraph implements ComponentFramework.StandardControl<IInpu
 	private mainContainer: HTMLDivElement;
 	private graphContainer: HTMLDivElement;
 	private cy: Cy.Core = require('cytoscape');
-	private n: Cy.NodeSingular
 
 	private graphData: [];
 	private graphStyle: [];
+	private graphLayout: Cy.LayoutOptions;
+
+	private _graphDataSet: DataSet;
 	/**
 	 * Empty constructor.
 	 */
@@ -40,11 +42,7 @@ export class PCFNetworkGraph implements ComponentFramework.StandardControl<IInpu
 		this.mainContainer.style.minHeight = '800px';
 		this.mainContainer.style.border = '1px solid black';
 		container.appendChild(this.mainContainer);
-		this.graphContainer = document.createElement('div');
-		this.graphContainer.id = 'graphContainer';
-		this.mainContainer.appendChild(this.graphContainer);
-
-		this.cy = Cy({container: document.getElementById('graphContainer')});
+		this.cy = Cy({container: document.getElementById('mainContainer')});
 	}
 
 
@@ -67,13 +65,20 @@ export class PCFNetworkGraph implements ComponentFramework.StandardControl<IInpu
 				this.graphStyle = JSON.parse(this.contextObj.parameters.graphStyle.raw);
 			}		
 		}
+
+		if(this.contextObj.parameters.graphLayout != null){
+			if(this.contextObj.parameters.graphLayout.raw != null) {
+				this.graphLayout = JSON.parse(this.contextObj.parameters.graphLayout.raw) as Cy.LayoutOptions;
+			}		
+		}
+
 		// Read records from dataset
-		if(!this.contextObj.parameters.graphDataset.loading){
-			if(this.contextObj.parameters.graphDataset.sortedRecordIds.length > 0)
+		if(!this.contextObj.parameters.graphDataSet.loading){
+			if(this.contextObj.parameters.graphDataSet.sortedRecordIds.length > 0)
 			{
 
 				// Loop through records
-				for(let currentRecordId of this.contextObj.parameters.graphDataset.sortedRecordIds){
+				for(let currentRecordId of this.contextObj.parameters.graphDataSet.sortedRecordIds){
 					// Alias workaround
 /* 
 					var idColumn = this.contextObj.parameters.graphData.columns.find(x => x.alias === "id");
@@ -102,17 +107,42 @@ export class PCFNetworkGraph implements ComponentFramework.StandardControl<IInpu
 			}
 		}
 
+		this.cy = Cy({container: this.mainContainer, style: this.graphStyle, layout: this.graphLayout, elements: this.graphData});
+		this.cy.on('mouseover', 'node', e => this.highlightOn(e.target));
+		this.cy.on('mouseout', 'node', e => this.highlightOff(e.target));
 
-		this.cy = Cy({container: this.mainContainer, style: this.graphStyle, layout: {name: 'random'}, elements: this.graphData});
-		this.cy.nodes().forEach(n => {
-			if(n.data().borderColor != null)
-				n.style("borderColor", n.data().borderColor);
-		});
 		console.log(this.cy);
 
 		Array.from(document.getElementsByTagName('canvas')).forEach(element => {
 			element.style.left = '0';
 		});
+	}
+
+	public highlightOn(node: Cy.NodeSingular): void {
+		this.cy.elements()
+			.difference(node.outgoers()
+				.union(node.incomers()))
+			.not(node)
+			.addClass('semitransparent');
+		node.addClass('highlight')
+			.outgoers()
+			.union(node.incomers())
+			.addClass('highlight');
+	}
+
+	public highlightOff(node: Cy.NodeSingular): void {
+		this.cy.elements()
+			.removeClass('semitransp');
+		node.removeClass('highlight')
+			.outgoers()
+			.union(node.incomers())
+			.removeClass('highlight');
+
+	}
+	
+	public setStyleProperty(n: Cy.NodeSingular, style: string): void {
+		if(n.data()[style] != null)
+			n.style(style, n.data()[style]); 
 	}
 
 	/** 

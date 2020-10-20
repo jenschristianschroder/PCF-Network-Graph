@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
   <control namespace="PowerAppsGuy" constructor="PCFNetworkGraph" version="0.0.1" display-name-key="PCFNetworkGraph" description-key="PCFNetworkGraph description" control-type="standard">
-    <property name="graphData" display-name-key="graphData" description-key="graph data" of-type="Multiple" usage="input" required="true" />
-    <property name="graphStyle" display-name-key="graphStyle" description-key="graph style" of-type="Multiple" usage="input" required="true" />
+    <property name="graphData" display-name-key="Graph Data" description-key="graph data" of-type="Multiple" usage="input" required="true" />
+    <property name="graphStyle" display-name-key="Graph Style" description-key="graph style" of-type="Multiple" usage="input" required="true" />
+    <property name="graphLayout" display-name-key="Graph Layout" description-key="graph style" of-type="Multiple" usage="input" required="true" />
     
     <!-- dataset node represents a set of entity records on CDS; allow more than one datasets -->
-    <data-set name="graphDataset" display-name-key="graphDataset">
+    <data-set name="graphDataSet" display-name-key="Graph DataSet">
       <!-- 'property-set' node represents a unique, configurable property that each record in the dataset must provide. -->
       <!-- UNCOMMENT TO ADD PROPERTY-SET NODE
       <property-set name="samplePropertySet" display-name-key="Property_Display_Key" description-key="Property_Desc_Key" of-type="SingleLine.Text" usage="bound" required="true" />
