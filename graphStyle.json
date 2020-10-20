@@ -1,70 +1,70 @@
 [ 
     {
-        "selector": "node",
-        "style": {
-            "content": "data(id)",
-            "font-family": "Segoe UI",
-            "font-size": 12,
-            "color": "black",
-            "width": 20,
-            "height": 20,
-            "border-color": "black", 
-            "border-width": 2,  
-            "shape":"circle",
-            "text-valign": "bottom",
-            "text-halign": "center"
+        selector: ""node"",
+        style: {
+            content: ""data(id)"",
+            font-family: ""Segoe UI"",
+            font-size: 12,
+            color: ""black"",
+            width: 20,
+            height: 20,
+            border-color: ""black"", 
+            border-width: 2,  
+            shape:""circle"",
+            text-valign: ""bottom"",
+            text-halign: ""center""
         }
     },
     {
-        "selector": "node.highlight",
-        "style": {
-            "font-size": 20,
-            "width": 40,
-            "height": 40,
-            "border-width": 6
+        selector: ""node.highlight"",
+        style: {
+            font-size: 20,
+            width: 40,
+            height: 40,
+            border-width: 6
         }
     },
     {
-        "selector": "node.semitransparent",
-        "style": {
-            "background-opacity": 0.5,
-            "border-opacity": 0.5
+        selector: ""node.semitransparent"",
+        style: {
+            background-opacity: 0.5,
+            border-opacity: 0.5
         }
     },
     {
-        "selector": "edge",
-        "style": {
-        "width": 1,
-        "line-color": "grey",
-        "target-arrow-color": "grey",
-        "target-arrow-shape": "triangle-tee",
-        "source-arrow-color": "grey",
-        "source-arrow-shape": "triangle-tee",
-        "curve-style": "straight", 
-        "loop-direction": "0deg", 
-        "loop-sweep": "-90deg",
-        "target-endpoint": "outside-to-line",
-        "source-endpoint": "outside-to-line"
+        selector: ""edge"",
+        style: {
+        width: 1,
+        line-color: ""grey"",
+        target-arrow-color: ""grey"",
+        target-arrow-shape: ""triangle-tee"",
+        source-arrow-color: ""grey"",
+        source-arrow-shape: ""triangle-tee"",
+        curve-style: ""straight"", 
+        loop-direction: ""0deg"", 
+        loop-sweep: ""-90deg"",
+        target-endpoint: ""outside-to-line"",
+        source-endpoint: ""outside-to-line""
         }
     },
     {
-    "selector": "node.highlight",
-    "style": {
-            "width": "30px",
-            "height": "30px",
-            "border-width": "6px"
+    selector: ""node.highlight"",
+    style: {
+            width: ""30px"",
+            height: ""30px"",
+            border-width: ""6px""
         }
     },
     {
-        "selector": "node.semitransp",
-        "style":{ "opacity": "0.5" }
+        selector: ""node.semitransp"",
+        style:{ ""opacity: ""0.5"" }
     },
     {
-        "selector": "edge.highlight",
-        "style": { "mid-target-arrow-color": "#FFF" }
+        selector: ""edge.highlight"",
+        style: { ""mid-target-arrow-color: ""#FFF"" }
     },
     {
-        "selector": "edge.semitransp",
-        "style":{ "opacity": "0.2" }
+        selector: ""edge.semitransp"",
+        style:{ ""opacity: ""0.2"" }
     }
 ]

@@ -4,7 +4,8 @@
     <property name="graphData" display-name-key="Graph Data" description-key="graph data" of-type="Multiple" usage="input" required="true" />
     <property name="graphStyle" display-name-key="Graph Style" description-key="graph style" of-type="Multiple" usage="input" required="true" />
     <property name="graphLayout" display-name-key="Graph Layout" description-key="graph style" of-type="Multiple" usage="input" required="true" />
-    
+    <property name="searchInput" display-name-key="Search Input" description-key="search input" of-type="Multiple" usage="input" required="true" />
+    <event name="OnClick" display-name-key="CC_OnClick" description-key="CC_OnClick_Desc"/>
     <!-- dataset node represents a set of entity records on CDS; allow more than one datasets -->
     <data-set name="graphDataSet" display-name-key="Graph DataSet">
       <!-- 'property-set' node represents a unique, configurable property that each record in the dataset must provide. -->
