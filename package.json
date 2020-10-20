@@ -1,0 +1,23 @@
+{
+  "name": "pcf-project",
+  "version": "1.0.0",
+  "description": "Project containing your PowerApps Component Framework (PCF) control.",
+  "scripts": {
+    "build": "pcf-scripts build",
+    "clean": "pcf-scripts clean",
+    "rebuild": "pcf-scripts rebuild",
+    "start": "pcf-scripts start"
+  },
+  "dependencies": {
+    "@types/cytoscape": "^3.14.8",
+    "@types/node": "^10.12.18",
+    "@types/powerapps-component-framework": "^1.2.0",
+    "@types/react-cytoscapejs": "^1.1.1",
+    "cytoscape": "^3.16.2",
+    "react-cytoscapejs": "^1.2.1"
+  },
+  "devDependencies": {
+    "pcf-scripts": "^1",
+    "pcf-start": "^1"
+  }
+}

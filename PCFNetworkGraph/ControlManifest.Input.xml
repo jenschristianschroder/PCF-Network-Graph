@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="PowerAppsGuy" constructor="PCFNetworkGraph" version="0.0.1" display-name-key="PCFNetworkGraph" description-key="PCFNetworkGraph description" control-type="standard">
+    <property name="graphData" display-name-key="graphData" description-key="graph data" of-type="Multiple" usage="input" required="true" />
+    <property name="graphStyle" display-name-key="graphStyle" description-key="graph style" of-type="Multiple" usage="input" required="true" />
+    
+    <!-- dataset node represents a set of entity records on CDS; allow more than one datasets -->
+    <data-set name="graphDataset" display-name-key="graphDataset">
+      <!-- 'property-set' node represents a unique, configurable property that each record in the dataset must provide. -->
+      <!-- UNCOMMENT TO ADD PROPERTY-SET NODE
+      <property-set name="samplePropertySet" display-name-key="Property_Display_Key" description-key="Property_Desc_Key" of-type="SingleLine.Text" usage="bound" required="true" />
+      -->
+    </data-set>
+    <resources>
+      <code path="index.ts" order="1"/>
+      <!-- UNCOMMENT TO ADD MORE RESOURCES
+      <css path="css/PCFNetworkGraph.css" order="1" />
+      <resx path="strings/PCFNetworkGraph.1033.resx" version="1.0.0" />
+      -->
+    </resources>
+    <!-- UNCOMMENT TO ENABLE THE SPECIFIED API
+    <feature-usage>
+      <uses-feature name="Device.captureAudio" required="true" />
+      <uses-feature name="Device.captureImage" required="true" />
+      <uses-feature name="Device.captureVideo" required="true" />
+      <uses-feature name="Device.getBarcodeValue" required="true" />
+      <uses-feature name="Device.getCurrentPosition" required="true" />
+      <uses-feature name="Device.pickFile" required="true" />
+      <uses-feature name="Utility" required="true" />
+      <uses-feature name="WebAPI" required="true" />
+    </feature-usage>
+    -->
+  </control>
+</manifest>
