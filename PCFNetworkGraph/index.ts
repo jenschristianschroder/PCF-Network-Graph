@@ -56,10 +56,10 @@ export class PCFNetworkGraph implements ComponentFramework.StandardControl<IInpu
 		this._notifyOutputChanged = notifyOutputChanged;
 
 		let initialGraph: Cy.ElementDefinition[] = [ 
-			{ group: "nodes", data: { id: "n0", content: "Node 1"}, position: { x: 100.0, y: 100.0 } },
-			{ group: "nodes", data: { id: "n1", content: "Node 2"}, position: { x: 150.0, y: 100.0 } },
-			{ group: "nodes", data: { id: "n2", content: "Node 3"}, position: { x: 200.0, y: 100.0 } },
-			{ group: "nodes", data: { id: "n3", content: "Node 4"}, position: { x: 250.0, y: 100.0 } },
+			{ group: "nodes", data: { id: "n0", content: "Node 1"} },
+			{ group: "nodes", data: { id: "n1", content: "Node 2"} },
+			{ group: "nodes", data: { id: "n2", content: "Node 3"} },
+			{ group: "nodes", data: { id: "n3", content: "Node 4"} },
 			{ group: "edges", data: { id: "e0", source: "n0", target: "n1" } },
 			{ group: "edges", data: { id: "e1", source: "n0", target: "n2" } },
 			{ group: "edges", data: { id: "e2", source: "n0", target: "n3" } }
