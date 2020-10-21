@@ -1,0 +1,1 @@
+{"version":3,"file":"Icon.js","sourceRoot":"../src/","sources":["Icon.ts"],"names":[],"mappings":";;;AAAA,0EAAgD","sourcesContent":["export * from 'office-ui-fabric-react/lib/Icon';\n"]}

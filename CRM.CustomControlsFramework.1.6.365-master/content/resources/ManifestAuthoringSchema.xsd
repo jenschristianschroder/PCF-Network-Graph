@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="PCF-Authoring-Manifest" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="property">
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="complex-type" type="xs:string" />
+      <xs:attribute name="helper-ui" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="wizard-property-group">
+    <xs:complexType>
+      <xs:sequence>
+        <!-- Limiting max wizard steps to 1 for now to simplify implementation, set to unbounded when implementing multi step wizard -->
+        <xs:element name="wizard-step" minOccurs="1" maxOccurs="1">
+          <xs:complexType>
+            <xs:attribute name="label" type="xs:string" />
+            <xs:attribute name="panelTitle" type="xs:string" />
+            <xs:attribute name="linkedLocation" type="xs:string" />
+            <xs:attribute name="propertyInvariantName" type="xs:string" />
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="property-group">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="property" minOccurs="0" maxOccurs="unbounded" />
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="authoring-manifest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="group" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="section" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:choice maxOccurs="unbounded">
+                    <xs:element ref="property" />
+                    <xs:element ref="property-group" />
+                    <xs:element ref="wizard-property-group" />
+                  </xs:choice>
+                  <xs:attribute name="name" type="xs:string" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element ref="property-group" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="schema-version" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

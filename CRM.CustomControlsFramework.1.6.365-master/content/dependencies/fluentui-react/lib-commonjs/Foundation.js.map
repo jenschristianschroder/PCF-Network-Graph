@@ -1,0 +1,1 @@
+{"version":3,"file":"Foundation.js","sourceRoot":"../src/","sources":["Foundation.ts"],"names":[],"mappings":";;;AAAA,gFAAsD","sourcesContent":["export * from 'office-ui-fabric-react/lib/Foundation';\n"]}

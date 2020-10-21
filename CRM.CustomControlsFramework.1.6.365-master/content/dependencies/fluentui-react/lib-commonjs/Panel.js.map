@@ -1,0 +1,1 @@
+{"version":3,"file":"Panel.js","sourceRoot":"../src/","sources":["Panel.ts"],"names":[],"mappings":";;;AAAA,2EAAiD","sourcesContent":["export * from 'office-ui-fabric-react/lib/Panel';\n"]}

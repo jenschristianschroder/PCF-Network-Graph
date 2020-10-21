@@ -1,1 +1,13 @@
-[   { \"group\": \"nodes\", \"data\": { \"id\": \"n0\" } },   { \"group\": \"nodes\", \"data\": { \"id\": \"n1\" } },   { \"group\": \"nodes\", \"data\": { \"id\": \"n2\" } },   { \"group\": \"nodes\", \"data\": { \"id\": \"n3\", \"content\": \"this is a <b>label</b>\" } },   { \"group\": \"nodes\", \"data\": { \"id\": \"n4\" } },   { \"group\": \"nodes\", \"data\": { \"id\": \"n5\" } },   { \"group\": \"edges\", \"data\": { \"id\": \"e0\", \"source\": \"n0\", \"target\": \"n1\" } },   { \"group\": \"edges\", \"data\": { \"id\": \"e1\", \"source\": \"n0\", \"target\": \"n2\" } },   { \"group\": \"edges\", \"data\": { \"id\": \"e2\", \"source\": \"n2\", \"target\": \"n3\" } },   { \"group\": \"edges\", \"data\": { \"id\": \"e4\", \"source\": \"n1\", \"target\": \"n4\" } },   { \"group\": \"edges\", \"data\": { \"id\": \"e5\", \"source\": \"n1\", \"target\": \"n5\" } }]
+[
+    { group: "nodes", data: { id: "n0" } },
+    { group: "nodes", data: { id: "n1" } },
+    { group: "nodes", data: { id: "n2" }},
+    { group: "nodes", data: { id: "n3", content: "this is a <b>label</b>" } },
+    { group: "nodes", data: { id: "n4" } },
+    { group: "nodes", data: { id: "n5" }, classes: "highlightOn" },
+    { group: "edges", data: { id: "e0", source: "n0", target: "n1" } },
+    { group: "edges", data: { id: "e1", source: "n0", target: "n2" } },
+    { group: "edges", data: { id: "e2", source: "n2", target: "n3" } },
+    { group: "edges", data: { id: "e4", source: "n1", target: "n4" } },
+    { group: "edges", data: { id: "e5", source: "n1", target: "n5" } }
+]

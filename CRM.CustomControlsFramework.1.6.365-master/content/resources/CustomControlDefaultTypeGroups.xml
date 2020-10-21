@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<default-groups>
+	<type-group name="numbers">
+		<type>Whole.None</type>
+		<type>FP</type>
+		<type>Decimal</type>
+		<type>Currency</type>
+	</type-group>
+	<type-group name="text">
+		<type>SingleLine.Text</type>
+		<type>SingleLine.TextArea</type>
+		<type>Multiple</type>
+	</type-group>
+	<type-group name="lookups">
+		<type>Lookup.Simple</type>
+		<type>Lookup.Customer</type>
+		<type>Lookup.Owner</type>
+		<type>Lookup.PartyList</type>
+		<type>Lookup.Regarding</type>
+	</type-group>
+	<type-group name="dates">
+		<type>DateAndTime.DateOnly</type>
+		<type>DateAndTime.DateAndTime</type>
+	</type-group>
+	<type-group name="allFields">
+		<type>TwoOptions</type>
+		<type>DateAndTime.DateOnly</type>
+		<type>DateAndTime.DateAndTime</type>
+		<type>FP</type>
+		<type>Decimal</type>
+		<type>Whole.None</type>
+		<type>Whole.Duration</type>
+		<type>Whole.TimeZone</type>
+		<type>Whole.Language</type>
+		<type>Lookup.Simple</type>
+		<type>Lookup.Customer</type>
+		<type>Lookup.Owner</type>
+		<type>Lookup.PartyList</type>
+		<type>Lookup.Regarding</type>
+		<type>Multiple</type>
+		<type>OptionSet</type>
+		<type>SingleLine.Text</type>
+		<type>SingleLine.TextArea</type>
+		<type>SingleLine.Email</type>
+		<type>SingleLine.URL</type>
+		<type>SingleLine.Ticker</type>
+		<type>SingleLine.Phone</type>
+	</type-group>
+</default-groups>

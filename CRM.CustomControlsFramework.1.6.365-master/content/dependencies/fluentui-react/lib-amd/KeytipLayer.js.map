@@ -1,0 +1,1 @@
+{"version":3,"file":"KeytipLayer.js","sourceRoot":"../src/","sources":["KeytipLayer.ts"],"names":[],"mappings":";;;IAAA,6CAAuD","sourcesContent":["export * from 'office-ui-fabric-react/lib/KeytipLayer';\n"]}

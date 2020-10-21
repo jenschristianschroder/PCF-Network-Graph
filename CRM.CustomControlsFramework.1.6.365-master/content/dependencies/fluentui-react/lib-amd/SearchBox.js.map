@@ -1,0 +1,1 @@
+{"version":3,"file":"SearchBox.js","sourceRoot":"../src/","sources":["SearchBox.ts"],"names":[],"mappings":";;;IAAA,2CAAqD","sourcesContent":["export * from 'office-ui-fabric-react/lib/SearchBox';\n"]}

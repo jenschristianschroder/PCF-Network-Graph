@@ -1,0 +1,1 @@
+{"version":3,"file":"ActivityItem.js","sourceRoot":"../src/","sources":["ActivityItem.ts"],"names":[],"mappings":"AAAA,cAAc,yCAAyC,CAAC","sourcesContent":["export * from 'office-ui-fabric-react/lib/ActivityItem';\n"]}

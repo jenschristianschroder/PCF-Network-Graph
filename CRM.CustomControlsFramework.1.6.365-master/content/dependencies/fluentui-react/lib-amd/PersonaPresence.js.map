@@ -1,0 +1,1 @@
+{"version":3,"file":"PersonaPresence.js","sourceRoot":"../src/","sources":["PersonaPresence.ts"],"names":[],"mappings":";;;IAAA,iDAA2D","sourcesContent":["export * from 'office-ui-fabric-react/lib/PersonaPresence';\n"]}

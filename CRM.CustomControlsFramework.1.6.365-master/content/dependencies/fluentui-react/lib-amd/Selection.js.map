@@ -1,0 +1,1 @@
+{"version":3,"file":"Selection.js","sourceRoot":"../src/","sources":["Selection.ts"],"names":[],"mappings":";;;IAAA,2CAAqD","sourcesContent":["export * from 'office-ui-fabric-react/lib/Selection';\n"]}

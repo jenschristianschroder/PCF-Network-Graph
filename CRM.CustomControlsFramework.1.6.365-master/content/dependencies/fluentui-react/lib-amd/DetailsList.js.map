@@ -1,0 +1,1 @@
+{"version":3,"file":"DetailsList.js","sourceRoot":"../src/","sources":["DetailsList.ts"],"names":[],"mappings":";;;IAAA,6CAAuD","sourcesContent":["export * from 'office-ui-fabric-react/lib/DetailsList';\n"]}

@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sourceRoot":"../src/","sources":["index.ts"],"names":[],"mappings":";;;IACA,wDAAuC","sourcesContent":["import './version';\nexport * from 'office-ui-fabric-react';\n"]}

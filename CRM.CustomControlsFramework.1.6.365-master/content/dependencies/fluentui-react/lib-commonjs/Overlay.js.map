@@ -1,0 +1,1 @@
+{"version":3,"file":"Overlay.js","sourceRoot":"../src/","sources":["Overlay.ts"],"names":[],"mappings":";;;AAAA,6EAAmD","sourcesContent":["export * from 'office-ui-fabric-react/lib/Overlay';\n"]}

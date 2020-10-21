@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="PowerAppsGuy" constructor="PCFNetworkGraph" version="0.0.1" display-name-key="PCFNetworkGraph" description-key="PCFNetworkGraph description" control-type="standard">
+  <control namespace="PowerAppsGuy" constructor="PCFNetworkGraph" version="0.0.16" display-name-key="PCFNetworkGraph" description-key="PCFNetworkGraph description" control-type="standard">
     <property name="graphData" display-name-key="Graph Data" description-key="graph data" of-type="Multiple" usage="input" required="true" />
     <property name="graphStyle" display-name-key="Graph Style" description-key="graph style" of-type="Multiple" usage="input" required="true" />
     <property name="graphLayout" display-name-key="Graph Layout" description-key="graph style" of-type="Multiple" usage="input" required="true" />
     <property name="searchInput" display-name-key="Search Input" description-key="search input" of-type="Multiple" usage="input" required="true" />
-    <event name="OnClick" display-name-key="CC_OnClick" description-key="CC_OnClick_Desc"/>
+    <property name="autoUpdate" display-name-key="AutoUpdate" description-key="Automatically update layout" of-type="TwoOptions" usage="input" required="true" />
+    <property name="width" display-name-key="Width" description-key="width" of-type="Whole.None" usage="input" required="true" />
+    <property name="height" display-name-key="Height" description-key="height" of-type="Whole.None" usage="input" required="true" />
+   
+    
     <!-- dataset node represents a set of entity records on CDS; allow more than one datasets -->
-    <data-set name="graphDataSet" display-name-key="Graph DataSet">
+    <data-set name="graphDataSet" display-name-key="Graph DataSet"></data-set>
       <!-- 'property-set' node represents a unique, configurable property that each record in the dataset must provide. -->
       <!-- UNCOMMENT TO ADD PROPERTY-SET NODE
       <property-set name="samplePropertySet" display-name-key="Property_Display_Key" description-key="Property_Desc_Key" of-type="SingleLine.Text" usage="bound" required="true" />
       -->
-    </data-set>
+    
     <resources>
       <code path="index.ts" order="1"/>
       <!-- UNCOMMENT TO ADD MORE RESOURCES

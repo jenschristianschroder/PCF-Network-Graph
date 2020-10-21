@@ -4,6 +4,21 @@ type DataSet = ComponentFramework.PropertyTypes.DataSet;
 import Cy from "cytoscape";
 import CytoscapeComponent from "react-cytoscapejs";
 
+
+interface NodeData {
+	id: string;
+	content: string;
+	recordId: string;
+};
+
+
+interface EdgeData {
+	id: string;
+	source: string;
+	target: string;
+	recordId: string;
+};
+
 export class PCFNetworkGraph implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 
 	private contextObj: ComponentFramework.Context<IInputs>;
@@ -11,9 +26,16 @@ export class PCFNetworkGraph implements ComponentFramework.StandardControl<IInpu
 	private graphContainer: HTMLDivElement;
 	private cy: Cy.Core = require('cytoscape');
 
-	private graphData: [];
+	private width: number;
+	private height: number;
+
+	private autoUpdate: boolean;
+
+	private graphData: Cy.ElementDefinition[];
 	private graphStyle: [];
 	private graphLayout: Cy.LayoutOptions;
+
+	private _notifyOutputChanged: () => void;
 
 	private _graphDataSet: DataSet;
 	/**
@@ -34,15 +56,37 @@ export class PCFNetworkGraph implements ComponentFramework.StandardControl<IInpu
 	 */
 	public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container:HTMLDivElement)
 	{
+		this._notifyOutputChanged = notifyOutputChanged;
+
+		let initialGraph: Cy.ElementDefinition[] = [ 
+			{ group: "nodes", data: { id: "n0", content: "Node 1"} },
+			{ group: "nodes", data: { id: "n1", content: "Node 2"} },
+			{ group: "nodes", data: { id: "n2", content: "Node 3"} },
+			{ group: "nodes", data: { id: "n3", content: "Node 4"} },
+			{ group: "edges", data: { id: "e0", source: "n0", target: "n1" } },
+			{ group: "edges", data: { id: "e1", source: "n0", target: "n2" } },
+			{ group: "edges", data: { id: "e2", source: "n0", target: "n3" } }
+		];
+
 		// Add control initialization code
 		this.mainContainer = document.createElement('div');
 		this.mainContainer.id = 'mainContainer';
 		this.mainContainer.style.position = 'absolute';
-		this.mainContainer.style.minWidth = '800px';
-		this.mainContainer.style.minHeight = '800px';
+		this.mainContainer.style.minWidth = '100px';
+		this.mainContainer.style.minHeight = '100px';
 		this.mainContainer.style.border = '1px solid black';
 		container.appendChild(this.mainContainer);
-		this.cy = Cy({container: document.getElementById('mainContainer')});
+
+		this.cy = Cy({container: document.getElementById('mainContainer'), elements: initialGraph});
+		this.graphLayout = { name: 'cose' };
+		this.cy.layout(this.graphLayout);
+		if(this.autoUpdate)
+			this.cy.layout(this.graphLayout).run();
+
+		this.cy.on('mouseover', 'node', e => this.highlightOn(e.target));
+		this.cy.on('mouseout', 'node', e => this.highlightOff(e.target));
+		this.cy.on('tap', 'node', e => this.onNodeClick(e.target));
+	
 	}
 
 
@@ -54,32 +98,73 @@ export class PCFNetworkGraph implements ComponentFramework.StandardControl<IInpu
 	{
 		this.contextObj = context;
 
+		if(this.contextObj.parameters.width != null){
+			if(this.contextObj.parameters.width.raw != null) {
+				if(this.contextObj.parameters.width.raw != 0)
+					this.width = this.contextObj.parameters.width.raw;
+					this.mainContainer.style.minWidth = this.width.toString() + "px";
+			}		
+		}
+
+		if(this.contextObj.parameters.height != null){
+			if(this.contextObj.parameters.height.raw != null) {
+				if(this.contextObj.parameters.height.raw != 0)
+					this.height = this.contextObj.parameters.height.raw;
+					this.mainContainer.style.minHeight = this.height.toString() + "px";
+			}		
+		}
+
+		if(this.contextObj.parameters.autoUpdate != null){
+			if(this.contextObj.parameters.autoUpdate.raw != null) {
+				if(this.contextObj.parameters.autoUpdate.raw != null)
+					this.autoUpdate = this.contextObj.parameters.autoUpdate.raw;
+					console.log(this.autoUpdate);
+			}		
+		}
+
 		if(this.contextObj.parameters.graphData != null){
 			if(this.contextObj.parameters.graphData.raw != null) {
-				this.graphData = JSON.parse(this.contextObj.parameters.graphData.raw.toString());
+				if(this.contextObj.parameters.graphData.raw != "")
+					this.graphData = JSON.parse(this.contextObj.parameters.graphData.raw.toString());
 			}		
 		}
 
 		if(this.contextObj.parameters.graphStyle != null){
 			if(this.contextObj.parameters.graphStyle.raw != null) {
-				this.graphStyle = JSON.parse(this.contextObj.parameters.graphStyle.raw);
+				if(this.contextObj.parameters.graphStyle.raw != "")
+					this.graphStyle = JSON.parse(this.contextObj.parameters.graphStyle.raw.toString());
 			}		
 		}
 
 		if(this.contextObj.parameters.graphLayout != null){
 			if(this.contextObj.parameters.graphLayout.raw != null) {
-				this.graphLayout = JSON.parse(this.contextObj.parameters.graphLayout.raw) as Cy.LayoutOptions;
+				if(this.contextObj.parameters.graphLayout.raw != "")
+					this.graphLayout = JSON.parse(this.contextObj.parameters.graphLayout.raw.toString()) as Cy.LayoutOptions;
 			}		
 		}
 
-		// Read records from dataset
+		// Read graph dataset
 		if(!this.contextObj.parameters.graphDataSet.loading){
 			if(this.contextObj.parameters.graphDataSet.sortedRecordIds.length > 0)
 			{
-
+				this.graphData = [];
 				// Loop through records
 				for(let currentRecordId of this.contextObj.parameters.graphDataSet.sortedRecordIds){
 					// Alias workaround
+					console.log(this.contextObj.parameters.graphDataSet.records[currentRecordId]);
+
+					let _group = this.contextObj.parameters.graphDataSet.records[currentRecordId].getValue("group");
+					if(_group == "nodes") {
+						let _data:NodeData = this.contextObj.parameters.graphDataSet.records[currentRecordId].getValue("data") as unknown as NodeData;
+						let _classes = this.contextObj.parameters.graphDataSet.records[currentRecordId].getValue("classes");
+						this.graphData.push(JSON.parse("{ \"group\": \"" + _group + "\", \"data\": { \"id\": \"" + _data.id + "\", \"content\": \"" + _data.content + "\", \"recordId\": \"" + currentRecordId + "\"}, \"classes\": \"" + _classes + "\" }"));
+					}
+					else if(_group == "edges") {
+						let _data:EdgeData = this.contextObj.parameters.graphDataSet.records[currentRecordId].getValue("data") as unknown as EdgeData;
+						let _classes = this.contextObj.parameters.graphDataSet.records[currentRecordId].getValue("classes");
+						this.graphData.push(JSON.parse("{ \"group\": \"" + _group + "\", \"data\": { \"id\": \"" + _data.id + "\", \"source\": \"" + _data.source + "\", \"target\": \"" + _data.target + "\", \"recordId\": \"" + currentRecordId + "\" }, \"classes\": \"" + _classes + "\" }"));
+					}
+
 /* 
 					var idColumn = this.contextObj.parameters.graphData.columns.find(x => x.alias === "id");
 					var idColumnName = idColumn == null ? "id" : idColumn.name;
@@ -106,16 +191,27 @@ export class PCFNetworkGraph implements ComponentFramework.StandardControl<IInpu
 				}
 			}
 		}
+		
+		this.cy = Cy({container: this.mainContainer, style: this.graphStyle, elements: this.graphData});
+		this.cy.layout(this.graphLayout).run();
+	}
 
-		this.cy = Cy({container: this.mainContainer, style: this.graphStyle, layout: this.graphLayout, elements: this.graphData});
-		this.cy.on('mouseover', 'node', e => this.highlightOn(e.target));
-		this.cy.on('mouseout', 'node', e => this.highlightOff(e.target));
 
-		console.log(this.cy);
+	/**
+	 * Row Click Event handler for the associated row when being clicked
+	 * @param event
+	 */
+	public onNodeClick(node: Cy.NodeSingular): void {
+		let elementRecordId = node.data().recordId;
+		if (elementRecordId) {
+			const record = this.contextObj.parameters.graphDataSet.records[elementRecordId];
 
-		Array.from(document.getElementsByTagName('canvas')).forEach(element => {
-			element.style.left = '0';
-		});
+			this.contextObj.parameters.graphDataSet.setSelectedRecordIds([elementRecordId]);
+			this.contextObj.parameters.graphDataSet.openDatasetItem(record.getNamedReference());
+
+			this._notifyOutputChanged();
+		}
+
 	}
 
 	public highlightOn(node: Cy.NodeSingular): void {
@@ -123,20 +219,22 @@ export class PCFNetworkGraph implements ComponentFramework.StandardControl<IInpu
 			.difference(node.outgoers()
 				.union(node.incomers()))
 			.not(node)
-			.addClass('semitransparent');
-		node.addClass('highlight')
+			.addClass('highlightOff');
+		node.addClass('highlightOn')
 			.outgoers()
 			.union(node.incomers())
-			.addClass('highlight');
+			.addClass('highlightOn');
+		
+	//	this.contextObj.events.OnClick
 	}
 
 	public highlightOff(node: Cy.NodeSingular): void {
 		this.cy.elements()
-			.removeClass('semitransp');
-		node.removeClass('highlight')
+			.removeClass('highlightOff');
+		node.removeClass('highlightOn')
 			.outgoers()
 			.union(node.incomers())
-			.removeClass('highlight');
+			.removeClass('highlightOn');
 
 	}
 	

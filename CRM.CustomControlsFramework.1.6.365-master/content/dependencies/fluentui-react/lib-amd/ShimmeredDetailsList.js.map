@@ -1,0 +1,1 @@
+{"version":3,"file":"ShimmeredDetailsList.js","sourceRoot":"../src/","sources":["ShimmeredDetailsList.ts"],"names":[],"mappings":";;;IAAA,sDAAgE","sourcesContent":["export * from 'office-ui-fabric-react/lib/ShimmeredDetailsList';\n"]}

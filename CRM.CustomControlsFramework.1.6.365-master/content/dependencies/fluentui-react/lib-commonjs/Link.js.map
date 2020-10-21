@@ -1,0 +1,1 @@
+{"version":3,"file":"Link.js","sourceRoot":"../src/","sources":["Link.ts"],"names":[],"mappings":";;;AAAA,0EAAgD","sourcesContent":["export * from 'office-ui-fabric-react/lib/Link';\n"]}

@@ -1,0 +1,1 @@
+{"version":3,"file":"SelectedItemsList.js","sourceRoot":"../src/","sources":["SelectedItemsList.ts"],"names":[],"mappings":";;;IAAA,mDAA6D","sourcesContent":["export * from 'office-ui-fabric-react/lib/SelectedItemsList';\n"]}
