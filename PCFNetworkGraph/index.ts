@@ -208,10 +208,6 @@ export class PCFNetworkGraph implements ComponentFramework.StandardControl<IInpu
 
 	}
 	
-	private setStyleProperty(n: Cy.NodeSingular, style: string): void {
-		if(n.data()[style] != null)
-			n.style(style, n.data()[style]); 
-	}
 
 	/** 
 	 * It is called by the framework prior to a control receiving new data. 
