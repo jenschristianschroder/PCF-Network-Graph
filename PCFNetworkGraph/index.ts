@@ -2,15 +2,12 @@ import {IInputs, IOutputs} from "./generated/ManifestTypes";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 import Cy from "cytoscape";
-import CytoscapeComponent from "react-cytoscapejs";
-
 
 interface NodeData {
 	id: string;
 	content: string;
 	recordId: string;
 };
-
 
 interface EdgeData {
 	id: string;
@@ -32,7 +29,7 @@ export class PCFNetworkGraph implements ComponentFramework.StandardControl<IInpu
 	private autoUpdate: boolean;
 
 	private graphData: Cy.ElementDefinition[];
-	private graphStyle: [];
+	private graphStyle: Cy.Stylesheet[];
 	private graphLayout: Cy.LayoutOptions;
 
 	private _notifyOutputChanged: () => void;
@@ -59,26 +56,25 @@ export class PCFNetworkGraph implements ComponentFramework.StandardControl<IInpu
 		this._notifyOutputChanged = notifyOutputChanged;
 
 		let initialGraph: Cy.ElementDefinition[] = [ 
-			{ group: "nodes", data: { id: "n0", content: "Node 1"} },
-			{ group: "nodes", data: { id: "n1", content: "Node 2"} },
-			{ group: "nodes", data: { id: "n2", content: "Node 3"} },
-			{ group: "nodes", data: { id: "n3", content: "Node 4"} },
+			{ group: "nodes", data: { id: "n0", content: "Node 1"}, position: { x: 100.0, y: 100.0 } },
+			{ group: "nodes", data: { id: "n1", content: "Node 2"}, position: { x: 150.0, y: 100.0 } },
+			{ group: "nodes", data: { id: "n2", content: "Node 3"}, position: { x: 200.0, y: 100.0 } },
+			{ group: "nodes", data: { id: "n3", content: "Node 4"}, position: { x: 250.0, y: 100.0 } },
 			{ group: "edges", data: { id: "e0", source: "n0", target: "n1" } },
 			{ group: "edges", data: { id: "e1", source: "n0", target: "n2" } },
 			{ group: "edges", data: { id: "e2", source: "n0", target: "n3" } }
 		];
 
-		// Add control initialization code
 		this.mainContainer = document.createElement('div');
 		this.mainContainer.id = 'mainContainer';
 		this.mainContainer.style.position = 'absolute';
-		this.mainContainer.style.minWidth = '100px';
-		this.mainContainer.style.minHeight = '100px';
+		this.mainContainer.style.minWidth = '100%';
+		this.mainContainer.style.minHeight = '100%';
 		this.mainContainer.style.border = '1px solid black';
 		container.appendChild(this.mainContainer);
 
-		this.cy = Cy({container: document.getElementById('mainContainer'), elements: initialGraph});
-		this.graphLayout = { name: 'cose' };
+		this.cy = Cy({container: document.getElementById('mainContainer'), headless: false, elements: initialGraph});
+		this.graphLayout = { name: 'preset' };
 		this.cy.layout(this.graphLayout);
 		if(this.autoUpdate)
 			this.cy.layout(this.graphLayout).run();
@@ -98,7 +94,7 @@ export class PCFNetworkGraph implements ComponentFramework.StandardControl<IInpu
 	{
 		this.contextObj = context;
 
-		if(this.contextObj.parameters.width != null){
+		if(this.contextObj.parameters.width != null) {
 			if(this.contextObj.parameters.width.raw != null) {
 				if(this.contextObj.parameters.width.raw != 0)
 					this.width = this.contextObj.parameters.width.raw;
@@ -106,7 +102,7 @@ export class PCFNetworkGraph implements ComponentFramework.StandardControl<IInpu
 			}		
 		}
 
-		if(this.contextObj.parameters.height != null){
+		if(this.contextObj.parameters.height != null) {
 			if(this.contextObj.parameters.height.raw != null) {
 				if(this.contextObj.parameters.height.raw != 0)
 					this.height = this.contextObj.parameters.height.raw;
@@ -114,7 +110,7 @@ export class PCFNetworkGraph implements ComponentFramework.StandardControl<IInpu
 			}		
 		}
 
-		if(this.contextObj.parameters.autoUpdate != null){
+		if(this.contextObj.parameters.autoUpdate != null) {
 			if(this.contextObj.parameters.autoUpdate.raw != null) {
 				if(this.contextObj.parameters.autoUpdate.raw != null)
 					this.autoUpdate = this.contextObj.parameters.autoUpdate.raw;
@@ -122,36 +118,39 @@ export class PCFNetworkGraph implements ComponentFramework.StandardControl<IInpu
 			}		
 		}
 
-		if(this.contextObj.parameters.graphData != null){
+		let useGraphDataSet = true;
+
+		if(this.contextObj.parameters.graphData != null) {
 			if(this.contextObj.parameters.graphData.raw != null) {
-				if(this.contextObj.parameters.graphData.raw != "")
+				if(this.contextObj.parameters.graphData.raw != "") {
+					useGraphDataSet = false;	
 					this.graphData = JSON.parse(this.contextObj.parameters.graphData.raw.toString());
+				}
 			}		
 		}
 
-		if(this.contextObj.parameters.graphStyle != null){
+		if(this.contextObj.parameters.graphStyle != null) {
 			if(this.contextObj.parameters.graphStyle.raw != null) {
 				if(this.contextObj.parameters.graphStyle.raw != "")
 					this.graphStyle = JSON.parse(this.contextObj.parameters.graphStyle.raw.toString());
 			}		
 		}
 
-		if(this.contextObj.parameters.graphLayout != null){
+		if(this.contextObj.parameters.graphLayout != null) {
 			if(this.contextObj.parameters.graphLayout.raw != null) {
 				if(this.contextObj.parameters.graphLayout.raw != "")
 					this.graphLayout = JSON.parse(this.contextObj.parameters.graphLayout.raw.toString()) as Cy.LayoutOptions;
 			}		
 		}
 
+		if(useGraphDataSet)
 		// Read graph dataset
-		if(!this.contextObj.parameters.graphDataSet.loading){
+		if(!this.contextObj.parameters.graphDataSet.loading) {
 			if(this.contextObj.parameters.graphDataSet.sortedRecordIds.length > 0)
 			{
 				this.graphData = [];
 				// Loop through records
-				for(let currentRecordId of this.contextObj.parameters.graphDataSet.sortedRecordIds){
-					// Alias workaround
-					console.log(this.contextObj.parameters.graphDataSet.records[currentRecordId]);
+				for(let currentRecordId of this.contextObj.parameters.graphDataSet.sortedRecordIds) {
 
 					let _group = this.contextObj.parameters.graphDataSet.records[currentRecordId].getValue("group");
 					if(_group == "nodes") {
@@ -164,43 +163,14 @@ export class PCFNetworkGraph implements ComponentFramework.StandardControl<IInpu
 						let _classes = this.contextObj.parameters.graphDataSet.records[currentRecordId].getValue("classes");
 						this.graphData.push(JSON.parse("{ \"group\": \"" + _group + "\", \"data\": { \"id\": \"" + _data.id + "\", \"source\": \"" + _data.source + "\", \"target\": \"" + _data.target + "\", \"recordId\": \"" + currentRecordId + "\" }, \"classes\": \"" + _classes + "\" }"));
 					}
-
-/* 
-					var idColumn = this.contextObj.parameters.graphData.columns.find(x => x.alias === "id");
-					var idColumnName = idColumn == null ? "id" : idColumn.name;
-					var fillColumn = this.contextObj.parameters.graphData.columns.find(x => x.alias === "fill");
-					var fillColumnName = fillColumn == null ? "fill" : fillColumn.name
- */					
-					// Find referenced SVG elements
-					// var svgObjCollection = document.getElementsByClassName(this.contextObj.parameters.graphData.records[currentRecordId].getFormattedValue(idColumnName).toLowerCase().replace(/\s/g, ""));
-					
-/* 					// Set fill color of found SVG elements
-					for (let i = 0; i < svgObjCollection.length; i++) {
-						let svgObj = <SVGElement>svgObjCollection[i];
-						if(svgObj != null){
-							if(fillColumn != null) {
-								svgObj.style.fill = this.contextObj.parameters.graphData.records[currentRecordId].getFormattedValue(fillColumnName);
-							}
-							// Add onclick event to SVG element
-							svgObj.addEventListener("click", this.onElementClick.bind(this));
-	
-							// Set the recordId on the SVG element
-							svgObj.setAttribute(elemRecordId, currentRecordId);
-						}
-					} */
 				}
 			}
 		}
 		
-		this.cy = Cy({container: this.mainContainer, style: this.graphStyle, elements: this.graphData});
+		this.cy = Cy({container: this.mainContainer, headless: false, style: this.graphStyle, elements: this.graphData});
 		this.cy.layout(this.graphLayout).run();
 	}
 
-
-	/**
-	 * Row Click Event handler for the associated row when being clicked
-	 * @param event
-	 */
 	public onNodeClick(node: Cy.NodeSingular): void {
 		let elementRecordId = node.data().recordId;
 		if (elementRecordId) {
@@ -238,7 +208,7 @@ export class PCFNetworkGraph implements ComponentFramework.StandardControl<IInpu
 
 	}
 	
-	public setStyleProperty(n: Cy.NodeSingular, style: string): void {
+	private setStyleProperty(n: Cy.NodeSingular, style: string): void {
 		if(n.data()[style] != null)
 			n.style(style, n.data()[style]); 
 	}
