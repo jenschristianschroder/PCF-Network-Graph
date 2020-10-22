@@ -78,10 +78,6 @@ export class PCFNetworkGraph implements ComponentFramework.StandardControl<IInpu
 		this.cy.layout(this.graphLayout);
 		if(this.autoUpdate)
 			this.cy.layout(this.graphLayout).run();
-
-		this.cy.on('mouseover', 'node', e => this.highlightOn(e.target));
-		this.cy.on('mouseout', 'node', e => this.highlightOff(e.target));
-		this.cy.on('tap', 'node', e => this.onNodeClick(e.target));
 	
 	}
 
@@ -169,6 +165,10 @@ export class PCFNetworkGraph implements ComponentFramework.StandardControl<IInpu
 		
 		this.cy = Cy({container: this.mainContainer, headless: false, style: this.graphStyle, elements: this.graphData});
 		this.cy.layout(this.graphLayout).run();
+		
+		this.cy.on('mouseover', 'node', e => this.highlightOn(e.target));
+		this.cy.on('mouseout', 'node', e => this.highlightOff(e.target));
+		this.cy.on('tap', 'node', e => this.onNodeClick(e.target));
 	}
 
 	public onNodeClick(node: Cy.NodeSingular): void {
