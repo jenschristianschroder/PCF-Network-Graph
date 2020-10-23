@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="PowerAppsGuy" constructor="PCFNetworkGraph" version="0.0.21" display-name-key="PCFNetworkGraph" description-key="PCFNetworkGraph description" control-type="standard">
+  <control namespace="PowerAppsGuy" constructor="PCFNetworkGraph" version="0.0.26" display-name-key="PCFNetworkGraph" description-key="PCFNetworkGraph description" control-type="standard">
     <property name="graphData" display-name-key="Graph Data" description-key="graph data" of-type="Multiple" usage="input" required="true" />
     <property name="graphStyle" display-name-key="Graph Style" description-key="graph style" of-type="Multiple" usage="input" required="true" />
     <property name="graphLayout" display-name-key="Graph Layout" description-key="graph style" of-type="Multiple" usage="input" required="true" />
     <property name="searchInput" display-name-key="Search Input" description-key="search input" of-type="Multiple" usage="input" required="true" />
+    <property name="searchStyle" display-name-key="Search Input" description-key="search input" of-type="Multiple" usage="input" required="true" />
     <property name="autoUpdate" display-name-key="AutoUpdate" description-key="Automatically update layout" of-type="TwoOptions" usage="input" required="true" />
     <property name="width" display-name-key="Width" description-key="width" of-type="Whole.None" usage="input" required="true" />
     <property name="height" display-name-key="Height" description-key="height" of-type="Whole.None" usage="input" required="true" />

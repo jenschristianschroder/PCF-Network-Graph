@@ -20,13 +20,16 @@ export class PCFNetworkGraph implements ComponentFramework.StandardControl<IInpu
 
 	private contextObj: ComponentFramework.Context<IInputs>;
 	private mainContainer: HTMLDivElement;
-	private graphContainer: HTMLDivElement;
 	private cy: Cy.Core = require('cytoscape');
 
 	private width: number;
 	private height: number;
 
 	private autoUpdate: boolean;
+
+	private searchStyle: string;
+	private searchInput: string;
+
 
 	private graphData: Cy.ElementDefinition[];
 	private graphStyle: Cy.Stylesheet[];
@@ -110,10 +113,18 @@ export class PCFNetworkGraph implements ComponentFramework.StandardControl<IInpu
 			if(this.contextObj.parameters.autoUpdate.raw != null) {
 				if(this.contextObj.parameters.autoUpdate.raw != null)
 					this.autoUpdate = this.contextObj.parameters.autoUpdate.raw;
-					console.log(this.autoUpdate);
 			}		
 		}
 
+		if(this.contextObj.parameters.searchInput != null) {
+			if(this.contextObj.parameters.searchInput.raw != null) {
+				if(this.contextObj.parameters.searchInput.raw != null)
+					this.searchInput = this.contextObj.parameters.searchInput.raw;
+			}		
+		}
+
+		// will be set to false (below) if graphData property has value and will then use graphdata from the graphdata property.
+		// this allows for simpler debugging when using the control in canvas app.
 		let useGraphDataSet = true;
 
 		if(this.contextObj.parameters.graphData != null) {
@@ -166,12 +177,27 @@ export class PCFNetworkGraph implements ComponentFramework.StandardControl<IInpu
 		this.cy = Cy({container: this.mainContainer, headless: false, style: this.graphStyle, elements: this.graphData});
 		this.cy.layout(this.graphLayout).run();
 		
+
 		this.cy.on('mouseover', 'node', e => this.highlightOn(e.target));
 		this.cy.on('mouseout', 'node', e => this.highlightOff(e.target));
 		this.cy.on('tap', 'node', e => this.onNodeClick(e.target));
+
+		if(this.contextObj.parameters.searchStyle != null) {
+			if(this.contextObj.parameters.searchStyle.raw != null) {
+				if(this.contextObj.parameters.searchStyle.raw != null)	{
+					this.searchStyle = this.contextObj.parameters.searchStyle.raw;
+					if(this.searchInput != "") {
+						this.cy.elements().nodes().removeClass(this.searchStyle);
+                    	this.cy.elements().nodes().filter(n => n.data().content.toLowerCase().indexOf(this.searchInput.toLowerCase()) >= 0).addClass(this.searchStyle);
+					}
+				}
+			}		
+		}
 	}
 
 	public onNodeClick(node: Cy.NodeSingular): void {
+		this.cy.nodes().removeClass('selected');
+		node.addClass('selected');
 		let elementRecordId = node.data().recordId;
 		if (elementRecordId) {
 			const record = this.contextObj.parameters.graphDataSet.records[elementRecordId];
@@ -194,8 +220,6 @@ export class PCFNetworkGraph implements ComponentFramework.StandardControl<IInpu
 			.outgoers()
 			.union(node.incomers())
 			.addClass('highlightOn');
-		
-	//	this.contextObj.events.OnClick
 	}
 
 	public highlightOff(node: Cy.NodeSingular): void {
@@ -205,7 +229,6 @@ export class PCFNetworkGraph implements ComponentFramework.StandardControl<IInpu
 			.outgoers()
 			.union(node.incomers())
 			.removeClass('highlightOn');
-
 	}
 	
 
