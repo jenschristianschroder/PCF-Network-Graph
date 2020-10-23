@@ -18,6 +18,10 @@ Cytoscape.js is a highly configurable and flexible library for visualizing netwo
 2. Optionally configure the styling. If not it will use cytoscape default styling
 3. Optionally configure the layout. If not it will use cytoscape default layout
 
+# Demo
+
+![CPAL Data Model Explorer](https://github.com/jenschristianschroder/CPAL-Data-Model-Explorer/blob/main/docs/CPAL%20Data%20Model%20Explorer.gif)
+
 # Example Power Apps implementation
 
 CDS Data Model Explorer (https://github.com/jenschristianschroder/CPAL-Data-Model-Explorer)
